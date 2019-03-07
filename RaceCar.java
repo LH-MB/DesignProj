@@ -1,3 +1,4 @@
+package RacingSimulator;
 
 //Louis Hwang
 
@@ -6,8 +7,8 @@
 //RaceCar
 public class RaceCar{
   
-  private int engine;
-  private int tires;
+  private double engine;
+  private double tires;
   private boolean nitrous;
   private String color;
   private char currentPosition;
@@ -15,8 +16,8 @@ public class RaceCar{
   
   //Default constructor
   public RaceCar(){
-    engine = 0;
-    tires = 0;
+    engine = 0.0;
+    tires = 0.0;
     nitrous = false;
     color = null;
     currentPosition = '\0';
@@ -33,11 +34,11 @@ public class RaceCar{
   }
   
   //Getters
-  public int getEngine(){
+  public double getEngine(){
     return engine;
   }
   
-  public int getTires(){
+  public double getTires(){
     return tires;
   }
   
