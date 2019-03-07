@@ -1,5 +1,6 @@
+package RacingSimulator;
 
-//Louis Hwang
+//Louis Hwang, Nathan Moore
 
 //Design Project
 
