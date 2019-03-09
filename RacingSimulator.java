@@ -19,7 +19,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class RacingSimulator extends Application {
-
+    double blueTime;
+    double redTime;
+    double whiteTime;
+    double purpleTime;
+    
     Checkpoint[] checkpoints;
 
     public static void main(String[] args) {
@@ -52,15 +56,30 @@ public class RacingSimulator extends Application {
         ImageView whiteCar = setUpCar(relativePath + "white_car.png", checkpointA);
         ImageView purpleCar = setUpCar(relativePath + "purple_car.png", checkpointA);
 
+        RaceCar carBlue = new RaceCar();
+        RaceCar carRed = new RaceCar();
+        RaceCar carWhite = new RaceCar();
+        RaceCar carPurple = new RaceCar();
+        
+        carBlue.randomizeValues();
+        carRed.randomizeValues();
+        carWhite.randomizeValues();
+        carPurple.randomizeValues();
+        
         //RACETRACK
         Image raceTrackImg = new Image(relativePath + "raceTrack.png");
         ImageView raceTrackView = new ImageView();
         raceTrackView.setImage(raceTrackImg);
 
-        simulator(blueCar, 1, 2.5);
-        simulator(redCar, 1, 3.0);
-        simulator(whiteCar, 1, 3.25);
-        simulator(purpleCar, 1, 3.5);
+        blueTime = (10 / (carBlue.getCalculatedSpeed()));
+        redTime = (10 / (carRed.getCalculatedSpeed()));
+        whiteTime = (10 / (carWhite.getCalculatedSpeed()));
+        purpleTime = (10 / (carPurple.getCalculatedSpeed()));
+                
+        simulator(blueCar, 1, blueTime);
+        simulator(redCar, 1, redTime);
+        simulator(whiteCar, 1, whiteTime);
+        simulator(purpleCar, 1, purpleTime);
 
         Pane trackPanel = new Pane();
         trackPanel.getChildren().addAll(raceTrackView, blueCar, redCar, whiteCar, purpleCar);
