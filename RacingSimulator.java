@@ -29,8 +29,6 @@ public class RacingSimulator extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        String relativePath = "/RacingSimulator/images/";
-
         //TITLE
         Text title = new Text("Racing Simulator");
         title.getStyleClass().add("title");
@@ -47,24 +45,25 @@ public class RacingSimulator extends Application {
         checkpoints[3] = checkpointD;
 
         //CARS
-        Image blueCarImg = new Image(relativePath + "blue_car.png");
-        ImageView blueCarView = new ImageView();
-        blueCarView.setImage(blueCarImg);
-        blueCarView.setFitWidth(100);
-        blueCarView.setPreserveRatio(true);
-        blueCarView.setTranslateX(checkpointA.getXPos());
-        blueCarView.setTranslateY(checkpointA.getYPos());
+        String relativePath = "/RacingSimulator/images/";
+
+        ImageView blueCar = setUpCar(relativePath + "blue_car.png", checkpointA);
+        ImageView redCar = setUpCar(relativePath + "red_car.png", checkpointA);
+        ImageView whiteCar = setUpCar(relativePath + "white_car.png", checkpointA);
+        ImageView purpleCar = setUpCar(relativePath + "purple_car.png", checkpointA);
 
         //RACETRACK
         Image raceTrackImg = new Image(relativePath + "raceTrack.png");
         ImageView raceTrackView = new ImageView();
         raceTrackView.setImage(raceTrackImg);
 
-        TranslateTransition blueTransition = new TranslateTransition();
-        simulator(blueCarView, 1);
+        simulator(blueCar, 1, 2.5);
+        simulator(redCar, 1, 3.0);
+        simulator(whiteCar, 1, 3.25);
+        simulator(purpleCar, 1, 3.5);
 
         Pane trackPanel = new Pane();
-        trackPanel.getChildren().addAll(raceTrackView, blueCarView);
+        trackPanel.getChildren().addAll(raceTrackView, blueCar, redCar, whiteCar, purpleCar);
 
         //LEFT SIDE
         VBox leftSide = new VBox();
@@ -86,11 +85,23 @@ public class RacingSimulator extends Application {
         primaryStage.show();
     }
 
-    public void simulator(ImageView car, int index) {
+    private ImageView setUpCar(String carFilePath, Checkpoint checkpointA) {
+        Image carImg = new Image(carFilePath);
+        ImageView carView = new ImageView();
+        carView.setImage(carImg);
+        carView.setFitWidth(100);
+        carView.setPreserveRatio(true);
+        carView.setTranslateX(checkpointA.getXPos());
+        carView.setTranslateY(checkpointA.getYPos());
+        return carView;
+    }
+
+    public void simulator(ImageView car, int index, double time) {
         TranslateTransition transition = new TranslateTransition();
         transition.setToX(checkpoints[index].getXPos());
         transition.setToY(checkpoints[index].getYPos());
-        transition.setDuration(Duration.seconds(3));
+        transition.setDuration(Duration.seconds(time));
+        transition.setDelay(Duration.seconds(.25));
         transition.setOnFinished(event -> {
             int i = index;
             car.setRotate(car.getRotate() + 90);
@@ -99,7 +110,7 @@ public class RacingSimulator extends Application {
             } else {
                 i++;
             }
-            simulator(car, i);
+            simulator(car, i, time);
         });
         transition.setNode(car);
         transition.play();
