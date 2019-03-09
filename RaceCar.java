@@ -1,10 +1,10 @@
 package RacingSimulator;
 
-//Louis Hwang
+/**
+ * Louis Hwang, Nathan Moore, and Svet Draganitchki
+ * CS 225 - Project 3
+ */
 
-//Design Project
-
-//RaceCar
 public class RaceCar{
 
     private double engine;

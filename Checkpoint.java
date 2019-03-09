@@ -1,10 +1,10 @@
 package RacingSimulator;
 
-//Louis Hwang, Nathan Moore
+/**
+ * Louis Hwang, Nathan Moore, and Svet Draganitchki
+ * CS 225 - Project 3
+ */
 
-//Design Project
-
-//Checkpoint 
 public class Checkpoint{
 
     private double xPos;
