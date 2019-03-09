@@ -5,6 +5,7 @@ package RacingSimulator;
  * CS 225 - Project 3
  */
 
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,8 +16,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class RacingSimulator extends Application {
+
+    Checkpoint[] checkpoints;
 
     public static void main(String[] args) {
         launch(args);
@@ -32,7 +36,15 @@ public class RacingSimulator extends Application {
         title.getStyleClass().add("title");
 
         //CHECKPOINTS
-        Checkpoint checkpointA = new Checkpoint(15, 15);
+        checkpoints = new Checkpoint[4];
+        Checkpoint checkpointA = new Checkpoint(-10, 15);
+        checkpoints[0] = checkpointA;
+        Checkpoint checkpointB = new Checkpoint(410, 15);
+        checkpoints[1] = checkpointB;
+        Checkpoint checkpointC = new Checkpoint(410, 435);
+        checkpoints[2] = checkpointC;
+        Checkpoint checkpointD = new Checkpoint(-10, 435);
+        checkpoints[3] = checkpointD;
 
         //CARS
         Image blueCarImg = new Image(relativePath + "blue_car.png");
@@ -47,6 +59,9 @@ public class RacingSimulator extends Application {
         Image raceTrackImg = new Image(relativePath + "raceTrack.png");
         ImageView raceTrackView = new ImageView();
         raceTrackView.setImage(raceTrackImg);
+
+        TranslateTransition blueTransition = new TranslateTransition();
+        simulator(blueCarView, 1);
 
         Pane trackPanel = new Pane();
         trackPanel.getChildren().addAll(raceTrackView, blueCarView);
@@ -69,5 +84,24 @@ public class RacingSimulator extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Racing Simulator");
         primaryStage.show();
+    }
+
+    public void simulator(ImageView car, int index) {
+        TranslateTransition transition = new TranslateTransition();
+        transition.setToX(checkpoints[index].getXPos());
+        transition.setToY(checkpoints[index].getYPos());
+        transition.setDuration(Duration.seconds(3));
+        transition.setOnFinished(event -> {
+            int i = index;
+            car.setRotate(car.getRotate() + 90);
+            if (i == 3) {
+                i = 0;
+            } else {
+                i++;
+            }
+            simulator(car, i);
+        });
+        transition.setNode(car);
+        transition.play();
     }
 }

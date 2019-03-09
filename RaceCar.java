@@ -1,5 +1,8 @@
 package RacingSimulator;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 /**
  * Louis Hwang, Nathan Moore, and Svet Draganitchki
  * CS 225 - Project 3
@@ -9,28 +12,35 @@ public class RaceCar{
 
     private double engine;
     private double tires;
-    private boolean nitrous;
-    private String color;
+    private double nitrous;
+    private double calculatedSpeed;
     private char currentPosition;
     private char endPosition;
+    private ImageView image;
 
     //Default constructor
     public RaceCar(){
         engine = 0.0;
         tires = 0.0;
-        nitrous = false;
-        color = null;
-        currentPosition = '\0';
-        endPosition = '\0';
+        nitrous = 0.0;
+        calculatedSpeed = 0.0;
+        currentPosition = ' ';
+        endPosition = ' ';
+        image = null;
     }
 
-    public RaceCar(int engine, int tires, boolean nitrous, String color, char currentPosition, char endPosition){
-        this.engine = engine;
-        this.tires = tires;
-        this.nitrous = nitrous;
-        this.color = color;
+    public RaceCar(char currentPosition, char endPosition, ImageView image) {
+        engine = (Math.random() * 3) + 1;
+        tires = (Math.random() * 3) + 1;
+        if ((int)(Math.random() * 3 + 1) == 1) {
+            nitrous = 3;
+        } else {
+            nitrous = 0;
+        }
+        this.calculatedSpeed = engine + tires + nitrous;
         this.currentPosition = currentPosition;
         this.endPosition = endPosition;
+        this.image = image;
     }
 
     //Getters
@@ -42,12 +52,12 @@ public class RaceCar{
         return tires;
     }
 
-    public boolean getNitrous(){
+    public double getNitrous(){
         return nitrous;
     }
 
-    public String getColor(){
-        return color;
+    public double getCalculatedSpeed() {
+        return calculatedSpeed;
     }
 
     public char getCurrentPosition(){
@@ -56,6 +66,10 @@ public class RaceCar{
 
     public char getEndPosition(){
         return endPosition;
+    }
+
+    public ImageView getImage() {
+        return image;
     }
 
     //Setters
@@ -67,8 +81,12 @@ public class RaceCar{
         tires = a;
     }
 
-    public void setNitrous(boolean a){
+    public void setNitrous(double a){
         nitrous = a;
+    }
+
+    public void setCalculatedSpeed(double calculatedSpeed) {
+        this.calculatedSpeed = calculatedSpeed;
     }
 
     public void setCurrentPosition(char a){
@@ -79,12 +97,23 @@ public class RaceCar{
         endPosition = a;
     }
 
-    public void randomizeValues(){
+    public void setImage(ImageView image) {
+        this.image = image;
+    }
 
+    public void randomizeValues(){
+        engine = (Math.random() * 3) + 1;
+        tires = (Math.random() * 3) + 1;
+        if ((int)(Math.random() * 3 + 1) == 1) {
+            nitrous = 3;
+        } else {
+            nitrous = 0;
+        }
+        calculatedSpeed = engine + tires + nitrous;
     }
 
     public String toString(){
-        return "Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Color: " + color + " Current Position: " + currentPosition
+        return "Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + currentPosition
                 + "End Position " + endPosition;
 
     }
@@ -100,17 +129,11 @@ public class RaceCar{
             return this.engine == a.engine
                     && this.tires == a.tires
                     && this.nitrous == a.nitrous
-                    && this.color.equals(a.color)
                     && this.currentPosition == a.currentPosition
                     && this.endPosition == a.endPosition;
         }
         else
             return false;
     }
-
-
-
-
-
 
 }
