@@ -24,6 +24,9 @@ public class RacingSimulator extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        String relativePath = "/RacingSimulator/images/";
+
         //TITLE
         Text title = new Text("Racing Simulator");
         title.getStyleClass().add("title");
@@ -32,7 +35,7 @@ public class RacingSimulator extends Application {
         Checkpoint checkpointA = new Checkpoint(15, 15);
 
         //CARS
-        Image blueCarImg = new Image("/RacingSimulator/blue_car.png");
+        Image blueCarImg = new Image(relativePath + "blue_car.png");
         ImageView blueCarView = new ImageView();
         blueCarView.setImage(blueCarImg);
         blueCarView.setFitWidth(100);
@@ -41,7 +44,7 @@ public class RacingSimulator extends Application {
         blueCarView.setTranslateY(checkpointA.getYPos());
 
         //RACETRACK
-        Image raceTrackImg = new Image("/RacingSimulator/raceTrack.png");
+        Image raceTrackImg = new Image(relativePath + "raceTrack.png");
         ImageView raceTrackView = new ImageView();
         raceTrackView.setImage(raceTrackImg);
 
