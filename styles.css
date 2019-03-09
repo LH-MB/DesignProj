@@ -1,0 +1,9 @@
+.root {
+    -fx-background-image: url("background.jpg");
+    -fx-background-size: cover, auto;
+}
+
+.title {
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-font-size: 50px;
+}
