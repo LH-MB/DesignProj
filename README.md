@@ -1,2 +1,2 @@
 # DesignProj
-Race Car design project
+Java racing simulator project for school.
