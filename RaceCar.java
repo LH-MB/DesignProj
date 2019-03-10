@@ -33,8 +33,6 @@ public class RaceCar{
         endPosition = ' ';
         image = null;
         angle = 0;
-        checkpointsEncountered = 0;
-        checkpointsInPath = 4;
         isFinished = false;
     }
 
@@ -90,14 +88,6 @@ public class RaceCar{
     public boolean getIsFinished(){
         return isFinished;
     }
-    
-    public int getCheckpointsEncountered(){
-        return checkpointsEncountered;
-    }
-    
-    public int getCheckpointsInPath(){
-        return checkpointsInPath;
-    }
 
     //Setters
     public void setEngine(int a){
@@ -131,18 +121,11 @@ public class RaceCar{
     public void setAngle(int a){
         angle = a;
     }
-    
-    public void setCheckpointsEncountered(int a){
-        checkpointsEncountered = a;
-    }
-    
-    public void setCheckpointsInPath(int a){
-        checkpointsInPath = a;
-    }
 
     public void setIsFinished(boolean a){
         isFinished = a;
     }
+    
     public void randomizeValues(){
         engine = (Math.random() * 3) + 1;
         tires = (Math.random() * 3) + 1;
@@ -172,7 +155,9 @@ public class RaceCar{
                     && this.tires == a.tires
                     && this.nitrous == a.nitrous
                     && this.currentPosition == a.currentPosition
-                    && this.endPosition == a.endPosition;
+                    && this.endPosition == a.endPosition
+                    && this.angle == a.angle
+                    && this.isFinished == a.isFinished;
         }
         else
             return false;
