@@ -25,6 +25,7 @@ public class RacingSimulator extends Application {
     double purpleTime;
     
     Checkpoint[] checkpoints;
+    Checkpoint[][] allCheckpoints;
 
     public static void main(String[] args) {
         launch(args);
@@ -37,17 +38,43 @@ public class RacingSimulator extends Application {
         Text title = new Text("Racing Simulator");
         title.getStyleClass().add("title");
 
-        //CHECKPOINTS
+        //CHECKPOINTS   
         checkpoints = new Checkpoint[4];
-        Checkpoint checkpointA = new Checkpoint(-10, 15);
+        Checkpoint checkpointA = new Checkpoint(-10, 15, 0);
         checkpoints[0] = checkpointA;
-        Checkpoint checkpointB = new Checkpoint(410, 15);
+        Checkpoint checkpointB = new Checkpoint(410, 15, 90);
         checkpoints[1] = checkpointB;
-        Checkpoint checkpointC = new Checkpoint(410, 435);
+        Checkpoint checkpointC = new Checkpoint(410, 435, 180);
         checkpoints[2] = checkpointC;
-        Checkpoint checkpointD = new Checkpoint(-10, 435);
+        Checkpoint checkpointD = new Checkpoint(-10, 435, 270);
         checkpoints[3] = checkpointD;
 
+        allCheckpoints = new Checkpoint[4][4];
+        
+        //blue car path
+        allCheckpoints[0][0] = checkpointA;
+        allCheckpoints[0][1] = checkpointB;
+        allCheckpoints[0][2] = checkpointC;
+        allCheckpoints[0][3] = checkpointD;
+        
+        //red car path
+        allCheckpoints[1][0] = checkpointA;
+        allCheckpoints[1][1] = checkpointD;
+        allCheckpoints[1][2] = checkpointC;
+        allCheckpoints[1][3] = checkpointB;
+        
+        //white car path
+        allCheckpoints[2][0] = checkpointA;
+        allCheckpoints[2][1] = checkpointD;
+        allCheckpoints[2][2] = checkpointC;
+        allCheckpoints[2][3] = checkpointB;
+        
+        //purple car path
+        allCheckpoints[3][0] = checkpointA;
+        allCheckpoints[3][1] = checkpointB;
+        allCheckpoints[3][2] = checkpointC;
+        allCheckpoints[3][3] = checkpointD;
+        
         //CARS
         String relativePath = "/RacingSimulator/images/";
 
@@ -76,10 +103,10 @@ public class RacingSimulator extends Application {
         whiteTime = (10 / (carWhite.getCalculatedSpeed()));
         purpleTime = (10 / (carPurple.getCalculatedSpeed()));
                 
-        simulator(blueCar, 1, blueTime);
-        simulator(redCar, 1, redTime);
-        simulator(whiteCar, 1, whiteTime);
-        simulator(purpleCar, 1, purpleTime);
+        simulator(blueCar, 0, 1, blueTime, 0);
+        simulator(redCar, 1, 1, redTime, 90);
+        simulator(whiteCar, 2, 1, whiteTime, 90);
+        simulator(purpleCar, 3, 1, purpleTime, 0);
 
         Pane trackPanel = new Pane();
         trackPanel.getChildren().addAll(raceTrackView, blueCar, redCar, whiteCar, purpleCar);
@@ -115,23 +142,26 @@ public class RacingSimulator extends Application {
         return carView;
     }
 
-    public void simulator(ImageView car, int index, double time) {
+    public void simulator(ImageView car, int carIndex, int index, double time, int angle) {
         TranslateTransition transition = new TranslateTransition();
-        transition.setToX(checkpoints[index].getXPos());
-        transition.setToY(checkpoints[index].getYPos());
+        transition.setToX(allCheckpoints[carIndex][index].getXPos());
+        transition.setToY(allCheckpoints[carIndex][index].getYPos());
         transition.setDuration(Duration.seconds(time));
         transition.setDelay(Duration.seconds(.25));
         transition.setOnFinished(event -> {
+            int c = carIndex;
             int i = index;
-            car.setRotate(car.getRotate() + 90);
-            if (i == 3) {
+            car.setRotate(angle + allCheckpoints[carIndex][index].getAngle());
+            if (i == 3){
                 i = 0;
             } else {
                 i++;
             }
-            simulator(car, i, time);
+            simulator(car, c, i, time, angle);
         });
         transition.setNode(car);
         transition.play();
     }
+    
+    
 }
