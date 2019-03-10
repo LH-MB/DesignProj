@@ -74,7 +74,7 @@ public class RacingSimulator extends Application {
         allCheckpoints[3][1] = checkpointB;
         allCheckpoints[3][2] = checkpointC;
         allCheckpoints[3][3] = checkpointD;
-        
+
         //CARS
         String relativePath = "/RacingSimulator/images/";
 
@@ -87,6 +87,9 @@ public class RacingSimulator extends Application {
         RaceCar carRed = new RaceCar();
         RaceCar carWhite = new RaceCar();
         RaceCar carPurple = new RaceCar();
+        
+        carRed.setAngle(90);
+        carWhite.setAngle(90);
         
         carBlue.randomizeValues();
         carRed.randomizeValues();
@@ -103,11 +106,13 @@ public class RacingSimulator extends Application {
         whiteTime = (10 / (carWhite.getCalculatedSpeed()));
         purpleTime = (10 / (carPurple.getCalculatedSpeed()));
                 
-        simulator(blueCar, 0, 1, blueTime, 0);
-        simulator(redCar, 1, 1, redTime, 90);
-        simulator(whiteCar, 2, 1, whiteTime, 90);
-        simulator(purpleCar, 3, 1, purpleTime, 0);
-
+        simulator(blueCar, 0, 1, blueTime, carBlue);
+        simulator(redCar, 1, 1, redTime, carRed);
+        simulator(whiteCar, 2, 1, whiteTime, carWhite);
+        simulator(purpleCar, 3, 1, purpleTime, carPurple);
+        
+        double start = System.currentTimeMillis();
+        
         Pane trackPanel = new Pane();
         trackPanel.getChildren().addAll(raceTrackView, blueCar, redCar, whiteCar, purpleCar);
 
@@ -142,25 +147,33 @@ public class RacingSimulator extends Application {
         return carView;
     }
 
-    public void simulator(ImageView car, int carIndex, int index, double time, int angle) {
+    public void simulator(ImageView car, int carIndex, int index, double time, RaceCar raceCar) {
         TranslateTransition transition = new TranslateTransition();
         transition.setToX(allCheckpoints[carIndex][index].getXPos());
         transition.setToY(allCheckpoints[carIndex][index].getYPos());
         transition.setDuration(Duration.seconds(time));
         transition.setDelay(Duration.seconds(.25));
-        transition.setOnFinished(event -> {
-            int c = carIndex;
-            int i = index;
-            car.setRotate(angle + allCheckpoints[carIndex][index].getAngle());
-            if (i == 3){
-                i = 0;
-            } else {
-                i++;
-            }
-            simulator(car, c, i, time, angle);
-        });
+        if (!raceCar.getIsFinished()){
+            transition.setOnFinished(event -> {
+                int c = carIndex;
+                int i = index;
+                car.setRotate(raceCar.getAngle() + allCheckpoints[carIndex][index].getAngle());
+                if (i == 3){
+                    i = 0;
+                    raceCar.setCheckpointsEncountered(raceCar.getCheckpointsEncountered() + 1);
+                } else {
+                    i++;
+                   raceCar.setCheckpointsEncountered(raceCar.getCheckpointsEncountered() + 1);
+                }
+                if (raceCar.getCheckpointsEncountered() == raceCar.getCheckpointsInPath()){
+                  raceCar.setIsFinished(true);
+                }
+                simulator(car, c, i, time, raceCar);
+            });
+        }
         transition.setNode(car);
         transition.play();
+    
     }
     
     
