@@ -23,9 +23,11 @@ public class RacingSimulator extends Application {
     double redTime;
     double whiteTime;
     double purpleTime;
+    double start;
     
     Checkpoint[] checkpoints;
     Checkpoint[][] allCheckpoints;
+    int[] checkpointsEncountered;
 
     public static void main(String[] args) {
         launch(args);
@@ -74,7 +76,14 @@ public class RacingSimulator extends Application {
         allCheckpoints[3][1] = checkpointB;
         allCheckpoints[3][2] = checkpointC;
         allCheckpoints[3][3] = checkpointD;
-
+        
+        //CHECKPOINTS ENCOUNTERED FOR EACH CAR
+        checkpointsEncountered = new int[4];
+        checkpointsEncountered[0] = 0;
+        checkpointsEncountered[1] = 0;
+        checkpointsEncountered[2] = 0;     
+        checkpointsEncountered[3] = 0;
+        
         //CARS
         String relativePath = "/RacingSimulator/images/";
 
@@ -111,7 +120,7 @@ public class RacingSimulator extends Application {
         simulator(whiteCar, 2, 1, whiteTime, carWhite);
         simulator(purpleCar, 3, 1, purpleTime, carPurple);
         
-        double start = System.currentTimeMillis();
+        start = System.currentTimeMillis();
         
         Pane trackPanel = new Pane();
         trackPanel.getChildren().addAll(raceTrackView, blueCar, redCar, whiteCar, purpleCar);
@@ -160,14 +169,15 @@ public class RacingSimulator extends Application {
                 car.setRotate(raceCar.getAngle() + allCheckpoints[carIndex][index].getAngle());
                 if (i == 3){
                     i = 0;
-                    raceCar.setCheckpointsEncountered(raceCar.getCheckpointsEncountered() + 1);
+                    checkpointsEncountered[carIndex]++;;
+                    if (checkpointsEncountered[carIndex] == 3){
+                       raceCar.setIsFinished(true);
+                    }
                 } else {
                     i++;
-                   raceCar.setCheckpointsEncountered(raceCar.getCheckpointsEncountered() + 1);
+                    checkpointsEncountered[carIndex]++;
                 }
-                if (raceCar.getCheckpointsEncountered() == raceCar.getCheckpointsInPath()){
-                  raceCar.setIsFinished(true);
-                }
+
                 simulator(car, c, i, time, raceCar);
             });
         }
