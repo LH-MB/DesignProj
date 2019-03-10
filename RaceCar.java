@@ -139,8 +139,8 @@ public class RaceCar{
     
     public String toString(){
         return "Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + currentPosition
-                + "End Position " + endPosition;
-
+                + "Calculated Speed: " + calculatedSpeed +"End Position " + endPosition + " Image: " + image 
+                + " angle: " + angle + " Is Finished?: " + isFinished;
     }
 
     public boolean equals(Object obj){
