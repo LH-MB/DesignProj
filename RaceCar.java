@@ -1,6 +1,5 @@
 package RacingSimulator;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -8,14 +7,16 @@ import javafx.scene.image.ImageView;
  * CS 225 - Project 3
  */
 
+@SuppressWarnings("Duplicates")
+
 public class RaceCar{
 
     private double engine;
     private double tires;
     private double nitrous;
     private double calculatedSpeed;
-    private char currentPosition;
-    private char endPosition;
+    private int startPosition;
+    private int endPosition;
     private ImageView image;
 
     //Default constructor
@@ -24,21 +25,21 @@ public class RaceCar{
         tires = 0.0;
         nitrous = 0.0;
         calculatedSpeed = 0.0;
-        currentPosition = ' ';
-        endPosition = ' ';
+        startPosition = 0;
+        endPosition = 0;
         image = null;
     }
 
-    public RaceCar(char currentPosition, char endPosition, ImageView image) {
-        engine = (Math.random() * 3) + 1;
-        tires = (Math.random() * 3) + 1;
+    public RaceCar(int startPosition, int endPosition, ImageView image) {
+        engine = (Math.random() * 3) + 2;
+        tires = (Math.random() * 3) + 2;
         if ((int)(Math.random() * 3 + 1) == 1) {
-            nitrous = 3;
+            nitrous = 1;
         } else {
             nitrous = 0;
         }
         this.calculatedSpeed = engine + tires + nitrous;
-        this.currentPosition = currentPosition;
+        this.startPosition = startPosition;
         this.endPosition = endPosition;
         this.image = image;
     }
@@ -60,11 +61,11 @@ public class RaceCar{
         return calculatedSpeed;
     }
 
-    public char getCurrentPosition(){
-        return currentPosition;
+    public int getStartPosition() {
+        return startPosition;
     }
 
-    public char getEndPosition(){
+    public int getEndPosition() {
         return endPosition;
     }
 
@@ -89,11 +90,11 @@ public class RaceCar{
         this.calculatedSpeed = calculatedSpeed;
     }
 
-    public void setCurrentPosition(char a){
-        currentPosition = a;
+    public void setStartPosition(int a){
+        startPosition = a;
     }
 
-    public void setEndPosition(char a){
+    public void setEndPosition(int a){
         endPosition = a;
     }
 
@@ -102,10 +103,10 @@ public class RaceCar{
     }
 
     public void randomizeValues(){
-        engine = (Math.random() * 3) + 1;
-        tires = (Math.random() * 3) + 1;
+        engine = (Math.random() * 3) + 2;
+        tires = (Math.random() * 3) + 2;
         if ((int)(Math.random() * 3 + 1) == 1) {
-            nitrous = 3;
+            nitrous = 1;
         } else {
             nitrous = 0;
         }
@@ -113,7 +114,7 @@ public class RaceCar{
     }
 
     public String toString(){
-        return "Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + currentPosition
+        return "Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + startPosition
                 + "End Position " + endPosition;
 
     }
@@ -129,7 +130,7 @@ public class RaceCar{
             return this.engine == a.engine
                     && this.tires == a.tires
                     && this.nitrous == a.nitrous
-                    && this.currentPosition == a.currentPosition
+                    && this.startPosition == a.startPosition
                     && this.endPosition == a.endPosition;
         }
         else

@@ -49,23 +49,23 @@ public class RacingSimulator extends Application {
         //CARS
         String relativePath = "/RacingSimulator/images/";
 
-        ImageView blueCar = setUpCar(relativePath + "blue_car.png", checkpointA);
-        ImageView redCar = setUpCar(relativePath + "red_car.png", checkpointB);
-        ImageView whiteCar = setUpCar(relativePath + "white_car.png", checkpointC);
-        ImageView purpleCar = setUpCar(relativePath + "purple_car.png", checkpointD);
+        RaceCar blueCar = new RaceCar(0, 3, setUpCar(relativePath + "blue_car.png", checkpointA));
+        RaceCar redCar = new RaceCar(1, 0, setUpCar(relativePath + "red_car.png", checkpointB));
+        RaceCar whiteCar = new RaceCar(2, 1, setUpCar(relativePath + "white_car.png", checkpointC));
+        RaceCar purpleCar = new RaceCar(3, 2, setUpCar(relativePath + "purple_car.png", checkpointD));
 
         //RACETRACK
         Image raceTrackImg = new Image(relativePath + "raceTrack.png");
         ImageView raceTrackView = new ImageView();
         raceTrackView.setImage(raceTrackImg);
 
-        simulator(blueCar, 1, 2.5);
-        simulator(redCar, 2, 3.0);
-        simulator(whiteCar, 3, 3.25);
-        simulator(purpleCar, 0, 3.5);
+        simulator(blueCar, 1);
+        simulator(redCar, 2);
+        simulator(whiteCar, 3);
+        simulator(purpleCar, 0);
 
         Pane trackPanel = new Pane();
-        trackPanel.getChildren().addAll(raceTrackView, blueCar, redCar, whiteCar, purpleCar);
+        trackPanel.getChildren().addAll(raceTrackView, blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
 
         //LEFT SIDE
         VBox leftSide = new VBox();
@@ -99,24 +99,31 @@ public class RacingSimulator extends Application {
         return carView;
     }
 
-    private void simulator(ImageView car, int index, double time) {
+    private void simulator(RaceCar car, int index) {
         TranslateTransition transition = new TranslateTransition();
         transition.setToX(checkpoints[index].getXPos());
         transition.setToY(checkpoints[index].getYPos());
-        transition.setDuration(Duration.seconds(time));
+        transition.setDuration(Duration.seconds(car.getCalculatedSpeed()/2.5));
         transition.setDelay(Duration.seconds(.25));
+
+        ImageView carImage = car.getImage();
         double angle = checkpoints[index].getAngle();
-        transition.setOnFinished(event -> {
-            int i = index;
-            car.setRotate(angle);
-            if (i == 3) {
-                i = 0;
-            } else {
-                i++;
-            }
-            simulator(car, i, time);
-        });
-        transition.setNode(car);
+
+        if (index != car.getEndPosition()) {
+            transition.setOnFinished(event -> {
+                int i = index;
+                carImage.setRotate(angle);
+                if (i == 3) {
+                    i = 0;
+                } else {
+                    i++;
+                }
+                car.randomizeValues();
+                simulator(car, i);
+            });
+        }
+
+        transition.setNode(carImage);
         transition.play();
     }
 }
