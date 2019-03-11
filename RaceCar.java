@@ -17,6 +17,11 @@ public class RaceCar{
     private char currentPosition;
     private char endPosition;
     private ImageView image;
+    private int angle;
+    private int checkpointsEncountered;
+    private int checkpointsInPath;
+    private boolean isFinished;
+    
 
     //Default constructor
     public RaceCar(){
@@ -27,9 +32,11 @@ public class RaceCar{
         currentPosition = ' ';
         endPosition = ' ';
         image = null;
+        angle = 0;
+        isFinished = false;
     }
 
-    public RaceCar(char currentPosition, char endPosition, ImageView image) {
+    public RaceCar(char currentPosition, char endPosition, ImageView image, int angle, boolean isFinished) {
         engine = (Math.random() * 3) + 1;
         tires = (Math.random() * 3) + 1;
         if ((int)(Math.random() * 3 + 1) == 1) {
@@ -41,6 +48,8 @@ public class RaceCar{
         this.currentPosition = currentPosition;
         this.endPosition = endPosition;
         this.image = image;
+        this.angle = angle;
+        this.isFinished = isFinished;
     }
 
     //Getters
@@ -71,6 +80,14 @@ public class RaceCar{
     public ImageView getImage() {
         return image;
     }
+    
+    public int getAngle(){
+        return angle;
+    }
+    
+    public boolean getIsFinished(){
+        return isFinished;
+    }
 
     //Setters
     public void setEngine(int a){
@@ -100,7 +117,15 @@ public class RaceCar{
     public void setImage(ImageView image) {
         this.image = image;
     }
+    
+    public void setAngle(int a){
+        angle = a;
+    }
 
+    public void setIsFinished(boolean a){
+        isFinished = a;
+    }
+    
     public void randomizeValues(){
         engine = (Math.random() * 3) + 1;
         tires = (Math.random() * 3) + 1;
@@ -111,11 +136,11 @@ public class RaceCar{
         }
         calculatedSpeed = engine + tires + nitrous;
     }
-
+    
     public String toString(){
         return "Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + currentPosition
-                + "End Position " + endPosition;
-
+                + "Calculated Speed: " + calculatedSpeed +"End Position " + endPosition + " Image: " + image 
+                + " angle: " + angle + " Is Finished?: " + isFinished;
     }
 
     public boolean equals(Object obj){
@@ -130,7 +155,9 @@ public class RaceCar{
                     && this.tires == a.tires
                     && this.nitrous == a.nitrous
                     && this.currentPosition == a.currentPosition
-                    && this.endPosition == a.endPosition;
+                    && this.endPosition == a.endPosition
+                    && this.angle == a.angle
+                    && this.isFinished == a.isFinished;
         }
         else
             return false;
