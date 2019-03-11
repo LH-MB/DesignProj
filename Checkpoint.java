@@ -5,21 +5,24 @@ package RacingSimulator;
  * CS 225 - Project 3
  */
 
-public class Checkpoint{
+public class Checkpoint {
 
     private double xPos;
     private double yPos;
+    private double angle;
 
 
     //Default constructor
     public Checkpoint(){
         xPos = 0.0;
         yPos = 0.0;
+        angle = 0;
     }
 
-    public Checkpoint(double xPos, double yPos){
+    public Checkpoint(double xPos, double yPos, double angle){
         this.xPos = xPos;
         this.yPos = yPos;
+        this.angle = angle;
     }
 
     //Getters
@@ -31,6 +34,9 @@ public class Checkpoint{
         return yPos;
     }
 
+    public double getAngle(){
+        return angle;
+    }
     //Setters
     public void setXPos(double a){
         xPos = a;
@@ -38,6 +44,10 @@ public class Checkpoint{
 
     public void setYPos(double a){
         yPos = a;
+    }
+
+    public void setAngle(double a){
+        angle = a;
     }
 
     public String toString(){
@@ -59,10 +69,5 @@ public class Checkpoint{
         else
             return false;
     }
-
-
-
-
-
 
 }

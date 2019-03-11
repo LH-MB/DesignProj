@@ -18,6 +18,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+@SuppressWarnings("Duplicates")
+
 public class RacingSimulator extends Application {
 
     Checkpoint[] checkpoints;
@@ -35,22 +37,22 @@ public class RacingSimulator extends Application {
 
         //CHECKPOINTS
         checkpoints = new Checkpoint[4];
-        Checkpoint checkpointA = new Checkpoint(-10, 15);
+        Checkpoint checkpointA = new Checkpoint(-10, 15, 0);
         checkpoints[0] = checkpointA;
-        Checkpoint checkpointB = new Checkpoint(410, 15);
+        Checkpoint checkpointB = new Checkpoint(410, 15, 90);
         checkpoints[1] = checkpointB;
-        Checkpoint checkpointC = new Checkpoint(410, 435);
+        Checkpoint checkpointC = new Checkpoint(410, 435, 180);
         checkpoints[2] = checkpointC;
-        Checkpoint checkpointD = new Checkpoint(-10, 435);
+        Checkpoint checkpointD = new Checkpoint(-10, 435, 270);
         checkpoints[3] = checkpointD;
 
         //CARS
         String relativePath = "/RacingSimulator/images/";
 
         ImageView blueCar = setUpCar(relativePath + "blue_car.png", checkpointA);
-        ImageView redCar = setUpCar(relativePath + "red_car.png", checkpointA);
-        ImageView whiteCar = setUpCar(relativePath + "white_car.png", checkpointA);
-        ImageView purpleCar = setUpCar(relativePath + "purple_car.png", checkpointA);
+        ImageView redCar = setUpCar(relativePath + "red_car.png", checkpointB);
+        ImageView whiteCar = setUpCar(relativePath + "white_car.png", checkpointC);
+        ImageView purpleCar = setUpCar(relativePath + "purple_car.png", checkpointD);
 
         //RACETRACK
         Image raceTrackImg = new Image(relativePath + "raceTrack.png");
@@ -58,9 +60,9 @@ public class RacingSimulator extends Application {
         raceTrackView.setImage(raceTrackImg);
 
         simulator(blueCar, 1, 2.5);
-        simulator(redCar, 1, 3.0);
-        simulator(whiteCar, 1, 3.25);
-        simulator(purpleCar, 1, 3.5);
+        simulator(redCar, 2, 3.0);
+        simulator(whiteCar, 3, 3.25);
+        simulator(purpleCar, 0, 3.5);
 
         Pane trackPanel = new Pane();
         trackPanel.getChildren().addAll(raceTrackView, blueCar, redCar, whiteCar, purpleCar);
@@ -79,32 +81,34 @@ public class RacingSimulator extends Application {
         Scene scene = new Scene(mainLayout);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinHeight(700);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Racing Simulator");
         primaryStage.show();
     }
 
-    private ImageView setUpCar(String carFilePath, Checkpoint checkpointA) {
+    private ImageView setUpCar(String carFilePath, Checkpoint checkpoint) {
         Image carImg = new Image(carFilePath);
         ImageView carView = new ImageView();
         carView.setImage(carImg);
         carView.setFitWidth(100);
         carView.setPreserveRatio(true);
-        carView.setTranslateX(checkpointA.getXPos());
-        carView.setTranslateY(checkpointA.getYPos());
+        carView.setTranslateX(checkpoint.getXPos());
+        carView.setTranslateY(checkpoint.getYPos());
+        carView.setRotate(checkpoint.getAngle());
         return carView;
     }
 
-    public void simulator(ImageView car, int index, double time) {
+    private void simulator(ImageView car, int index, double time) {
         TranslateTransition transition = new TranslateTransition();
         transition.setToX(checkpoints[index].getXPos());
         transition.setToY(checkpoints[index].getYPos());
         transition.setDuration(Duration.seconds(time));
         transition.setDelay(Duration.seconds(.25));
+        double angle = checkpoints[index].getAngle();
         transition.setOnFinished(event -> {
             int i = index;
-            car.setRotate(car.getRotate() + 90);
+            car.setRotate(angle);
             if (i == 3) {
                 i = 0;
             } else {
