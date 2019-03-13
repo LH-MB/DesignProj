@@ -133,7 +133,7 @@ public class RaceCar{
     
     public String toString(){
         return colorCar + " Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + startPosition
-                + "End Position " + endPosition + " Image: " + Image;
+                + "End Position " + endPosition + " Image: " + image;
 
     }
 
