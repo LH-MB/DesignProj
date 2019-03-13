@@ -1,6 +1,6 @@
 package RacingSimulator;
 
-import javafx.scene.image.Image;
+import java.text.DecimalFormat;
 import javafx.scene.image.ImageView;
 
 /**
@@ -8,51 +8,51 @@ import javafx.scene.image.ImageView;
  * CS 225 - Project 3
  */
 
-public class RaceCar{
+@SuppressWarnings("Duplicates")
 
+public class RaceCar{
+    
+    private String colorCar;
     private double engine;
     private double tires;
     private double nitrous;
     private double calculatedSpeed;
-    private char currentPosition;
-    private char endPosition;
+    private int startPosition;
+    private int endPosition;
     private ImageView image;
-    private int angle;
-    private int checkpointsEncountered;
-    private int checkpointsInPath;
-    private boolean isFinished;
-    
 
     //Default constructor
     public RaceCar(){
+        colorCar = "Not Set";
         engine = 0.0;
         tires = 0.0;
         nitrous = 0.0;
         calculatedSpeed = 0.0;
-        currentPosition = ' ';
-        endPosition = ' ';
+        startPosition = 0;
+        endPosition = 0;
         image = null;
-        angle = 0;
-        isFinished = false;
     }
 
-    public RaceCar(char currentPosition, char endPosition, ImageView image, int angle, boolean isFinished) {
-        engine = (Math.random() * 3) + 1;
-        tires = (Math.random() * 3) + 1;
+    public RaceCar(String colorCar,int startPosition, int endPosition, ImageView image) {
+        engine = (Math.random() * 3) + 2;
+        tires = (Math.random() * 3) + 2;
         if ((int)(Math.random() * 3 + 1) == 1) {
-            nitrous = 3;
+            nitrous = 1;
         } else {
             nitrous = 0;
         }
+        this.colorCar = colorCar;
         this.calculatedSpeed = engine + tires + nitrous;
-        this.currentPosition = currentPosition;
+        this.startPosition = startPosition;
         this.endPosition = endPosition;
         this.image = image;
-        this.angle = angle;
-        this.isFinished = isFinished;
     }
 
     //Getters
+    public String getColor(){
+        return colorCar;
+    }
+    
     public double getEngine(){
         return engine;
     }
@@ -69,27 +69,23 @@ public class RaceCar{
         return calculatedSpeed;
     }
 
-    public char getCurrentPosition(){
-        return currentPosition;
+    public int getStartPosition() {
+        return startPosition;
     }
 
-    public char getEndPosition(){
+    public int getEndPosition() {
         return endPosition;
     }
 
     public ImageView getImage() {
         return image;
     }
-    
-    public int getAngle(){
-        return angle;
-    }
-    
-    public boolean getIsFinished(){
-        return isFinished;
-    }
 
     //Setters
+    public void setColor(String a){
+        colorCar = a;
+    }
+    
     public void setEngine(int a){
         engine = a;
     }
@@ -106,41 +102,39 @@ public class RaceCar{
         this.calculatedSpeed = calculatedSpeed;
     }
 
-    public void setCurrentPosition(char a){
-        currentPosition = a;
+    public void setStartPosition(int a){
+        startPosition = a;
     }
 
-    public void setEndPosition(char a){
+    public void setEndPosition(int a){
         endPosition = a;
     }
 
     public void setImage(ImageView image) {
         this.image = image;
     }
-    
-    public void setAngle(int a){
-        angle = a;
-    }
 
-    public void setIsFinished(boolean a){
-        isFinished = a;
-    }
-    
     public void randomizeValues(){
-        engine = (Math.random() * 3) + 1;
-        tires = (Math.random() * 3) + 1;
+        engine = (Math.random() * 3) + 2;
+        tires = (Math.random() * 3) + 2;
         if ((int)(Math.random() * 3 + 1) == 1) {
-            nitrous = 3;
+            nitrous = 1;
         } else {
             nitrous = 0;
         }
         calculatedSpeed = engine + tires + nitrous;
     }
     
+    public String resultsToString(){
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        return colorCar + " This car had Engine:"+df.format(engine)+" Type of Tires:"+df.format(tires)+" Nitrous:"+df.format(nitrous)+" Speed:"+ df.format(calculatedSpeed) +"MPH";
+    }
+    
     public String toString(){
-        return "Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + currentPosition
-                + "Calculated Speed: " + calculatedSpeed +"End Position " + endPosition + " Image: " + image 
-                + " angle: " + angle + " Is Finished?: " + isFinished;
+        return colorCar + " Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + startPosition
+                + "End Position " + endPosition;
+
     }
 
     public boolean equals(Object obj){
@@ -154,10 +148,8 @@ public class RaceCar{
             return this.engine == a.engine
                     && this.tires == a.tires
                     && this.nitrous == a.nitrous
-                    && this.currentPosition == a.currentPosition
-                    && this.endPosition == a.endPosition
-                    && this.angle == a.angle
-                    && this.isFinished == a.isFinished;
+                    && this.startPosition == a.startPosition
+                    && this.endPosition == a.endPosition;
         }
         else
             return false;
