@@ -228,7 +228,7 @@ public class RacingSimulator extends Application {
         else  if (index == car.getEndPosition() && winner != true){
             winner = true;
             transition.setOnFinished(event -> {
-                results [counter] = new Label("WINNER: " + car.toString());
+                results [counter] = new Label("WINNER: " + car.resultsToString());
                 results[counter].setWrapText(true);
                 results[counter].setFont(new Font("Arial",16));
                 results[counter].setTextFill(Color.web("#ffcc00"));
@@ -239,7 +239,7 @@ public class RacingSimulator extends Application {
         }
         else if (index == car.getEndPosition()){
             transition.setOnFinished(event -> {
-                results [counter] = new Label(car.toString());
+                results [counter] = new Label(car.resultsToString());
                 results[counter].setWrapText(true);
                 results[counter].setFont(new Font("Arial",12));
                 results[counter].setTextFill(Color.web("#ffffff"));

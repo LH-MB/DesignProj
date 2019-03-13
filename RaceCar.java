@@ -1,5 +1,6 @@
 package RacingSimulator;
 
+import java.text.DecimalFormat;
 import javafx.scene.image.ImageView;
 
 /**
@@ -122,6 +123,12 @@ public class RaceCar{
             nitrous = 0;
         }
         calculatedSpeed = engine + tires + nitrous;
+    }
+    
+    public String resultsToString(){
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        return colorCar + " This car had Engine:"+df.format(engine)+" Type of Tires:"+df.format(tires)+" Nitrous:"+df.format(nitrous)+" Speed:"+ df.format(calculatedSpeed) +"MPH";
     }
     
     public String toString(){
