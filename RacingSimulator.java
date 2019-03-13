@@ -59,10 +59,10 @@ public class RacingSimulator extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        
-//        garage = new RaceCar[4];
+       
         results = new Label[4];
         counter = 0;
+        
         //TITLE
         Text title = new Text("Racing Simulator");
         title.getStyleClass().add("title");
@@ -79,33 +79,24 @@ public class RacingSimulator extends Application {
         Checkpoint checkpointD = new Checkpoint(-10, 435, 270);
         checkpoints[3] = checkpointD;
 
-        //CARS
-        
-
+        //CARS 
         blueCar = new RaceCar(0, 3, setUpCar(relativePath + "blue_car.png", checkpointA));
         redCar = new RaceCar(1, 0, setUpCar(relativePath + "red_car.png", checkpointB));
         whiteCar = new RaceCar(2, 1, setUpCar(relativePath + "white_car.png", checkpointC));
         purpleCar = new RaceCar(3, 2, setUpCar(relativePath + "purple_car.png", checkpointD));
 
-//        garage[0] = blueCar;
-//        garage[1] = redCar;
-//        garage[2] = whiteCar;
-//        garage[3] = purpleCar;
-        
         //RACETRACK
         Image raceTrackImg = new Image(relativePath + "raceTrack.png");
         ImageView raceTrackView = new ImageView();
         raceTrackView.setImage(raceTrackImg);
         
-      
         trackPanel = new Pane();
         trackPanel.getChildren().addAll(raceTrackView, blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
 
         //START
-        start = new Button();
-        start.setText("Start");
-        start.setMinSize(100,20);
-        
+        Image startImg = new Image(relativePath + "start.png");
+        start = new Button("Start",new ImageView(startImg));
+        start.setMinSize(50,50);
         start.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {   
@@ -119,8 +110,8 @@ public class RacingSimulator extends Application {
     });
         
         //RESET
-        reset = new Button();
-        reset.setText("Restart");
+        Image resetImg = new Image(relativePath + "reset.png");
+        reset = new Button("Restart",new ImageView(resetImg));
         reset.setMinSize(100,20);
         reset.setVisible(false);
         
