@@ -33,6 +33,8 @@ public class RacingSimulator extends Application {
     private Checkpoint[] checkpoints;
     private Label[] results;
     private int counter;
+    private double times;
+    private double startTime;
     
     private ImageView carView;
     private boolean winner;
@@ -62,7 +64,7 @@ public class RacingSimulator extends Application {
        
         results = new Label[4];
         counter = 0;
-        
+        startTime = System.currentTimeMillis();
         //TITLE
         Text title = new Text("Racing Simulator");
         title.getStyleClass().add("title");
@@ -228,7 +230,7 @@ public class RacingSimulator extends Application {
         else  if (index == car.getEndPosition() && winner != true){
             winner = true;
             transition.setOnFinished(event -> {
-                results [counter] = new Label("WINNER: " + car.resultsToString());
+                results [counter] = new Label("WINNER: " + car.resultsToString()+ " Time: " + (System.currentTimeMillis() - startTime) / 1000);
                 results[counter].setWrapText(true);
                 results[counter].setFont(new Font("Arial",16));
                 results[counter].setTextFill(Color.web("#ffcc00"));
@@ -239,7 +241,7 @@ public class RacingSimulator extends Application {
         }
         else if (index == car.getEndPosition()){
             transition.setOnFinished(event -> {
-                results [counter] = new Label(car.resultsToString());
+                results [counter] = new Label(car.resultsToString() + " Time: " + (System.currentTimeMillis() - startTime) / 1000);
                 results[counter].setWrapText(true);
                 results[counter].setFont(new Font("Arial",12));
                 results[counter].setTextFill(Color.web("#ffffff"));
@@ -255,5 +257,5 @@ public class RacingSimulator extends Application {
         transition.setNode(carImage);
         transition.play();
     }
-  
+ 
 }
