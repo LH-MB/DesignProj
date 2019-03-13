@@ -1,8 +1,10 @@
 package RacingSimulator;
 
 /**
- * Louis Hwang, Nathan Moore, and Svet Draganitchki
+ * Louis Hwang, Nathan Moore
  * CS 225 - Project 3
+ * Louis created xPos, yPos, toString/equals attributes/methods
+ * Nathan created angle attributes/methods
  */
 
 public class Checkpoint {
