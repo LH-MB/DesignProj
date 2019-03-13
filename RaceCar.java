@@ -48,6 +48,10 @@ public class RaceCar{
     }
 
     //Getters
+    public String getColor(){
+        return colorCar;
+    }
+    
     public double getEngine(){
         return engine;
     }
@@ -77,6 +81,10 @@ public class RaceCar{
     }
 
     //Setters
+    public void setColor(String a){
+        colorCar = a;
+    }
+    
     public void setEngine(int a){
         engine = a;
     }
