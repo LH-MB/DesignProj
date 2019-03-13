@@ -133,7 +133,7 @@ public class RaceCar{
     
     public String toString(){
         return colorCar + " Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + startPosition
-                + "End Position " + endPosition;
+                + "End Position " + endPosition + " Image: " + Image;
 
     }
 
@@ -145,11 +145,13 @@ public class RaceCar{
         if (this.getClass() == obj.getClass()){
             RaceCar a = (RaceCar) obj;
 
-            return this.engine == a.engine
+            return this.colorCar.equals(a.colorCar)
+                    && this.engine == a.engine
                     && this.tires == a.tires
                     && this.nitrous == a.nitrous
                     && this.startPosition == a.startPosition
-                    && this.endPosition == a.endPosition;
+                    && this.endPosition == a.endPosition
+                    && this.image.equals(a.image);
         }
         else
             return false;
