@@ -1,5 +1,6 @@
 package RacingSimulator;
 
+import java.text.DecimalFormat;
 import javafx.scene.image.ImageView;
 
 /**
@@ -10,7 +11,8 @@ import javafx.scene.image.ImageView;
 @SuppressWarnings("Duplicates")
 
 public class RaceCar{
-
+    
+    private String colorCar;
     private double engine;
     private double tires;
     private double nitrous;
@@ -21,6 +23,7 @@ public class RaceCar{
 
     //Default constructor
     public RaceCar(){
+        colorCar = "Not Set";
         engine = 0.0;
         tires = 0.0;
         nitrous = 0.0;
@@ -30,7 +33,7 @@ public class RaceCar{
         image = null;
     }
 
-    public RaceCar(int startPosition, int endPosition, ImageView image) {
+    public RaceCar(String colorCar,int startPosition, int endPosition, ImageView image) {
         engine = (Math.random() * 3) + 2;
         tires = (Math.random() * 3) + 2;
         if ((int)(Math.random() * 3 + 1) == 1) {
@@ -38,6 +41,7 @@ public class RaceCar{
         } else {
             nitrous = 0;
         }
+        this.colorCar = colorCar;
         this.calculatedSpeed = engine + tires + nitrous;
         this.startPosition = startPosition;
         this.endPosition = endPosition;
@@ -45,6 +49,10 @@ public class RaceCar{
     }
 
     //Getters
+    public String getColor(){
+        return colorCar;
+    }
+    
     public double getEngine(){
         return engine;
     }
@@ -74,6 +82,10 @@ public class RaceCar{
     }
 
     //Setters
+    public void setColor(String a){
+        colorCar = a;
+    }
+    
     public void setEngine(int a){
         engine = a;
     }
@@ -112,9 +124,15 @@ public class RaceCar{
         }
         calculatedSpeed = engine + tires + nitrous;
     }
-
+    
+    public String resultsToString(){
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        return colorCar + " This car had Engine:"+df.format(engine)+" Type of Tires:"+df.format(tires)+" Nitrous:"+df.format(nitrous)+" Speed:"+ df.format(calculatedSpeed) +"MPH";
+    }
+    
     public String toString(){
-        return "Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + startPosition
+        return colorCar + " Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + startPosition
                 + "End Position " + endPosition;
 
     }
