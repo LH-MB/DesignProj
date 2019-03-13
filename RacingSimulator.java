@@ -168,9 +168,11 @@ public class RacingSimulator extends Application {
         leftSide.setAlignment(Pos.CENTER);
 
         //RIGHT SIDE
-        rightSide = new VBox();
+        rightSide = new VBox(25);
         rightSide.setAlignment(Pos.CENTER_RIGHT);
-        rightSide.setStyle(" -fx-background-color: #000000;");
+//        rightSide.getStyleClass().add("title");
+        rightSide.getStyleClass().add("results");
+
         
         
         //MAIN LAYOUT
@@ -240,7 +242,7 @@ public class RacingSimulator extends Application {
                 results[counter].setFont(new Font("Arial",16));
                 results[counter].setTextFill(Color.web("#ffcc00"));
                 rightSide.setPadding(new Insets(25));
-                rightSide.getChildren().add(results[counter]);
+                rightSide.getChildren().addAll(results[counter]);
                 counter ++;
             });
         }
@@ -253,7 +255,7 @@ public class RacingSimulator extends Application {
             rightSide.setPadding(new Insets(25));
             rightSide.getChildren().addAll(results[counter]);  
             counter ++;
-            if (counter ==3){
+            if (counter == 4){
                 reset.setVisible(true);
             }
             });
