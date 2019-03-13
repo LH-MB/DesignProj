@@ -25,6 +25,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.text.DecimalFormat;
+
 @SuppressWarnings("Duplicates")
 
 public class RacingSimulator extends Application {
@@ -53,6 +55,8 @@ public class RacingSimulator extends Application {
     private VBox leftSide;
     private VBox rightSide;
 
+    DecimalFormat df;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -61,6 +65,7 @@ public class RacingSimulator extends Application {
     public void start(Stage primaryStage) {
 
         counter = 0;
+        df = new DecimalFormat("#.##");
         
         //TITLE
         Text title = new Text("Racing Simulator");
@@ -118,13 +123,18 @@ public class RacingSimulator extends Application {
             public void handle(ActionEvent event) {
                 trackPanel.getChildren().removeAll(blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
                 blueCar.setImage(setUpCar(relativePath + "blue_car.png",checkpointA));
+                blueCar.randomizeValues();
                 redCar.setImage(setUpCar(relativePath + "red_car.png", checkpointB));
+                redCar.randomizeValues();
                 whiteCar.setImage(setUpCar(relativePath + "white_car.png", checkpointC));
+                whiteCar.randomizeValues();
                 purpleCar.setImage(setUpCar(relativePath + "purple_car.png", checkpointD));
+                purpleCar.randomizeValues();
                 trackPanel.getChildren().addAll(blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
                 for (Label result: results) {
                     result.setText("");
                 }
+
 
                 counter = 0;
                 winner = false;
@@ -190,21 +200,13 @@ public class RacingSimulator extends Application {
         carView.setRotate(checkpoint.getAngle());
         return carView;
     }
-    
-    private ImageView resetCar(Checkpoint checkpoint){
-        carView.setTranslateX(checkpoint.getXPos());
-        carView.setTranslateY(checkpoint.getYPos());
-        carView.setRotate(checkpoint.getAngle());
-        return carView;
-    }
 
     private void simulator(RaceCar car, int index) {
-        
+
         TranslateTransition transition = new TranslateTransition();
         transition.setToX(checkpoints[index].getXPos());
         transition.setToY(checkpoints[index].getYPos());
         transition.setDuration(Duration.seconds(car.getCalculatedSpeed()/2.5));
-        transition.setDelay(Duration.seconds(.25));
         
         ImageView carImage = car.getImage();
         transition.setNode(carImage);
@@ -219,13 +221,13 @@ public class RacingSimulator extends Application {
                 } else {
                     i++;
                 }
-                car.randomizeValues();
                 simulator(car, i);
             });
         } else  if (index == car.getEndPosition() && !winner){
             winner = true;
             transition.setOnFinished(event -> {
-                results[counter].setText(counter + 1 + ": " + car.getColor());
+                double time = (car.getCalculatedSpeed()/2.5) * 4;
+                results[counter].setText(counter + 1 + ": " + car.getColor() + " (time: " + df.format(time) + "s)");
                 results[counter].setMaxWidth(400);
                 results[counter].setWrapText(true);
                 results[counter].setFont(new Font("Arial",24));
@@ -234,7 +236,8 @@ public class RacingSimulator extends Application {
             });
         } else if (index == car.getEndPosition()){
             transition.setOnFinished(event -> {
-                results[counter].setText(counter + 1 + ": " + car.getColor());
+                double time = (car.getCalculatedSpeed()/2.5) * 4;
+                results[counter].setText(counter + 1 + ": " + car.getColor() + " (time: " + df.format(time) + "s)");
                 results[counter].setMaxWidth(400);
                 results[counter].setWrapText(true);
                 results[counter].setFont(new Font("Arial",24));
