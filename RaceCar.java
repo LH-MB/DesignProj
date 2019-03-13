@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import javafx.scene.image.ImageView;
 
 /**
- * Louis Hwang, Nathan Moore, and Svet Draganitchki
+ * Louis Hwang, Nathan Moore
  * CS 225 - Project 3
  */
 //Louis created engine, tires, nitrous, startPosition, and endPosition attributes/methods
