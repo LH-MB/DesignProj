@@ -3,11 +3,6 @@
     -fx-background-size: cover, auto;
 }
 
-.results {
-    -fx-background-image: url("images/results.jpg");
-    -fx-background-size: cover, auto;
-}
-
 .title {
     -fx-font-family: "Franklin Gothic Medium";
     -fx-font-size: 50px;

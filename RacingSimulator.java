@@ -29,7 +29,6 @@ import javafx.util.Duration;
 
 public class RacingSimulator extends Application {
 
-    //private varibles used throughout RacingSimulator
     private Checkpoint[] checkpoints;
     private Label[] results;
     private int counter;
@@ -48,9 +47,10 @@ public class RacingSimulator extends Application {
     
     private Button start;
     private Button reset;
-    
+
+    private HBox buttons;
+    private VBox resultsPanel;
     private VBox leftSide;
-//    private Text results;
     private VBox rightSide;
 
     public static void main(String[] args) {
@@ -59,8 +59,7 @@ public class RacingSimulator extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-       
-        results = new Label[4];
+
         counter = 0;
         
         //TITLE
@@ -94,9 +93,8 @@ public class RacingSimulator extends Application {
         trackPanel.getChildren().addAll(raceTrackView, blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
 
         //START
-        Image startImg = new Image(relativePath + "start.png");
-        start = new Button("Start",new ImageView(startImg));
-        start.setMinSize(50,50);
+        start = new Button("Start");
+        start.setMinSize(100,50);
         start.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {   
@@ -104,79 +102,79 @@ public class RacingSimulator extends Application {
                 simulator(redCar, 2);
                 simulator(whiteCar, 3);
                 simulator(purpleCar, 0);
-                start.setVisible(false);   
+                start.setDisable(true);
             }
         
     });
         
         //RESET
-        Image resetImg = new Image(relativePath + "reset.png");
-        reset = new Button("Restart",new ImageView(resetImg));
-        reset.setMinSize(100,20);
-        reset.setVisible(false);
+        reset = new Button("Restart");
+        reset.setMinSize(100,50);
+        reset.setDisable(true);
         
         reset.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             
             public void handle(ActionEvent event) {
                 trackPanel.getChildren().removeAll(blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
-                
-                blueCar.setStartPosition(0);
-                redCar.setStartPosition(1);
-                whiteCar.setStartPosition(2);
-                purpleCar.setStartPosition(3);
-                
-                blueCar.setEndPosition(3);
-                redCar.setEndPosition(0);
-                whiteCar.setEndPosition(1);
-                purpleCar.setEndPosition(2);
-                
                 blueCar.setImage(setUpCar(relativePath + "blue_car.png",checkpointA));
                 redCar.setImage(setUpCar(relativePath + "red_car.png", checkpointB));
                 whiteCar.setImage(setUpCar(relativePath + "white_car.png", checkpointC));
                 purpleCar.setImage(setUpCar(relativePath + "purple_car.png", checkpointD));
-
                 trackPanel.getChildren().addAll(blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
+                for (Label result: results) {
+                    result.setText("");
+                }
+
                 counter = 0;
                 winner = false;
-                rightSide.getChildren().clear();
-                rightSide.setPadding(new Insets(0));
-//                try{
-//                Thread.sleep(10000);
-//                }
-//                catch(java.lang.InterruptedException e){
-//                    System.out.println(e);}  // Just leaving this here just incase I want to use it late
-                start.setVisible(true);
-                reset.setVisible(false);
+                start.setDisable(false);
+                reset.setDisable(true);
             }
                 
         
     });
+
+        buttons = new HBox();
+        buttons.getChildren().addAll(start, reset);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setSpacing(50);
         
         //LEFT SIDE
         leftSide = new VBox();
-        leftSide.getChildren().addAll(title, start, trackPanel, reset);
+        leftSide.getChildren().addAll(title, trackPanel);
         leftSide.setAlignment(Pos.CENTER);
+        leftSide.setMinWidth(500);
+
+
+        resultsPanel = new VBox();
+        resultsPanel.setAlignment(Pos.CENTER);
+        resultsPanel.setMinHeight(300);
+
+        results = new Label[4];
+        for (int i=0; i<4; i++) {
+            results[i] = new Label();
+            resultsPanel.getChildren().add(results[i]);
+        }
 
         //RIGHT SIDE
-        rightSide = new VBox(25);
-        rightSide.setAlignment(Pos.CENTER_RIGHT);
-//        rightSide.getStyleClass().add("title");
-        rightSide.getStyleClass().add("results");
-
-        
+        rightSide = new VBox();
+        rightSide.getChildren().addAll(buttons, resultsPanel);
+        rightSide.setAlignment(Pos.CENTER);
+        rightSide.setMinWidth(300);
         
         //MAIN LAYOUT
         HBox mainLayout = new HBox();
         mainLayout.setAlignment(Pos.CENTER);
         mainLayout.getChildren().addAll(leftSide,rightSide);
-        mainLayout.setSpacing(150);
+        mainLayout.setSpacing(50);
 
         //SCENE AND STAGE
-        Scene scene = new Scene(mainLayout, 900, 700);
+        Scene scene = new Scene(mainLayout);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(700);
         primaryStage.setTitle("Racing Simulator");
         primaryStage.show();
     }
@@ -224,30 +222,26 @@ public class RacingSimulator extends Application {
                 car.randomizeValues();
                 simulator(car, i);
             });
-        }
-        else  if (index == car.getEndPosition() && winner != true){
+        } else  if (index == car.getEndPosition() && !winner){
             winner = true;
             transition.setOnFinished(event -> {
-                results [counter] = new Label("WINNER: " + car.resultsToString());
+                results[counter].setText(counter + 1 + ": " + car.getColor());
+                results[counter].setMaxWidth(400);
                 results[counter].setWrapText(true);
-                results[counter].setFont(new Font("Arial",16));
-                results[counter].setTextFill(Color.web("#ffcc00"));
-                rightSide.setPadding(new Insets(25));
-                rightSide.getChildren().addAll(results[counter]);
-                counter ++;
+                results[counter].setFont(new Font("Arial",24));
+                results[counter].setTextFill(Color.web("#000000"));
+                counter++;
             });
-        }
-        else if (index == car.getEndPosition()){
+        } else if (index == car.getEndPosition()){
             transition.setOnFinished(event -> {
-                results [counter] = new Label(car.resultsToString());
+                results[counter].setText(counter + 1 + ": " + car.getColor());
+                results[counter].setMaxWidth(400);
                 results[counter].setWrapText(true);
-                results[counter].setFont(new Font("Arial",12));
-                results[counter].setTextFill(Color.web("#ffffff"));
-                rightSide.setPadding(new Insets(25));
-                rightSide.getChildren().addAll(results[counter]);  
-                counter ++;
+                results[counter].setFont(new Font("Arial",24));
+                results[counter].setTextFill(Color.web("#000000"));
+                counter++;
                 if (counter == 4){
-                    reset.setVisible(true);
+                    reset.setDisable(false);
                 }
             });
         }
