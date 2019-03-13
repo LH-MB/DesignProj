@@ -51,7 +51,7 @@ public class Checkpoint {
     }
 
     public String toString(){
-        return "X Position: " + xPos + " Y Position: " + yPos;
+        return "X Position: " + xPos + " Y Position: " + yPos + " Angle: " + angle;
 
     }
 
@@ -64,7 +64,8 @@ public class Checkpoint {
             Checkpoint a = (Checkpoint) obj;
 
             return this.xPos == a.xPos
-                    && this.yPos == a.yPos;
+                    && this.yPos == a.yPos
+                    && this.angle == a.angle;
         }
         else
             return false;
