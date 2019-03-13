@@ -6,9 +6,9 @@ import javafx.scene.image.ImageView;
 /**
  * Louis Hwang, Nathan Moore
  * CS 225 - Project 3
+ * Louis created engine, tires, nitrous, startPosition, endPosition, toString, and equals attributes/methods
+ * Nathan changed data types of some attributes. Created colorCar, calculatedSpeed, ImageView attributes/methods
  */
-//Louis created engine, tires, nitrous, startPosition, and endPosition attributes/methods
-//Nathan changed data types of some attributes. Created colorCar, calculatedSpeed, ImageView attributes/methods
 
 @SuppressWarnings("Duplicates")
 
