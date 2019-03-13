@@ -149,6 +149,7 @@ public class RacingSimulator extends Application {
                 counter = 0;
                 winner = false;
                 rightSide.getChildren().clear();
+                rightSide.setPadding(new Insets(0));
 //                try{
 //                Thread.sleep(10000);
 //                }
