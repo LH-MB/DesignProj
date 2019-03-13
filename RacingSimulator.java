@@ -9,14 +9,18 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -27,8 +31,11 @@ public class RacingSimulator extends Application {
 
     //private varibles used throughout RacingSimulator
     private Checkpoint[] checkpoints;
+    private Label[] results;
+    private int counter;
     
     private ImageView carView;
+    private boolean winner;
     
     private RaceCar blueCar;
     private RaceCar redCar;
@@ -41,6 +48,10 @@ public class RacingSimulator extends Application {
     
     private Button start;
     private Button reset;
+    
+    private VBox leftSide;
+//    private Text results;
+    private VBox rightSide;
 
     public static void main(String[] args) {
         launch(args);
@@ -48,13 +59,17 @@ public class RacingSimulator extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
+        
+//        garage = new RaceCar[4];
+        results = new Label[4];
+        counter = 0;
         //TITLE
         Text title = new Text("Racing Simulator");
         title.getStyleClass().add("title");
 
         //CHECKPOINTS
         checkpoints = new Checkpoint[4];
+        
         Checkpoint checkpointA = new Checkpoint(-10, 15, 0);
         checkpoints[0] = checkpointA;
         Checkpoint checkpointB = new Checkpoint(410, 15, 90);
@@ -72,14 +87,17 @@ public class RacingSimulator extends Application {
         whiteCar = new RaceCar(2, 1, setUpCar(relativePath + "white_car.png", checkpointC));
         purpleCar = new RaceCar(3, 2, setUpCar(relativePath + "purple_car.png", checkpointD));
 
+//        garage[0] = blueCar;
+//        garage[1] = redCar;
+//        garage[2] = whiteCar;
+//        garage[3] = purpleCar;
+        
         //RACETRACK
         Image raceTrackImg = new Image(relativePath + "raceTrack.png");
         ImageView raceTrackView = new ImageView();
         raceTrackView.setImage(raceTrackImg);
         
-        
-        
-
+      
         trackPanel = new Pane();
         trackPanel.getChildren().addAll(raceTrackView, blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
 
@@ -95,8 +113,7 @@ public class RacingSimulator extends Application {
                 simulator(redCar, 2);
                 simulator(whiteCar, 3);
                 simulator(purpleCar, 0);
-                start.setVisible(false);
-                reset.setVisible(true);
+                start.setVisible(false);   
             }
         
     });
@@ -129,7 +146,9 @@ public class RacingSimulator extends Application {
                 purpleCar.setImage(setUpCar(relativePath + "purple_car.png", checkpointD));
 
                 trackPanel.getChildren().addAll(blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
-                
+                counter = 0;
+                winner = false;
+                rightSide.getChildren().clear();
 //                try{
 //                Thread.sleep(10000);
 //                }
@@ -143,21 +162,27 @@ public class RacingSimulator extends Application {
     });
         
         //LEFT SIDE
-        VBox leftSide = new VBox();
+        leftSide = new VBox();
         leftSide.getChildren().addAll(title, start, trackPanel, reset);
         leftSide.setAlignment(Pos.CENTER);
 
+        //RIGHT SIDE
+        rightSide = new VBox();
+        rightSide.setAlignment(Pos.CENTER_RIGHT);
+        rightSide.setStyle(" -fx-background-color: #000000;");
+        
+        
         //MAIN LAYOUT
         HBox mainLayout = new HBox();
         mainLayout.setAlignment(Pos.CENTER);
-        mainLayout.getChildren().addAll(leftSide);
+        mainLayout.getChildren().addAll(leftSide,rightSide);
+        mainLayout.setSpacing(150);
 
         //SCENE AND STAGE
-        Scene scene = new Scene(mainLayout);
+        Scene scene = new Scene(mainLayout, 900, 700);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(700);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Racing Simulator");
         primaryStage.show();
     }
@@ -192,7 +217,7 @@ public class RacingSimulator extends Application {
         ImageView carImage = car.getImage();
         transition.setNode(carImage);
         double angle = checkpoints[index].getAngle();
-
+       
         if (index != car.getEndPosition()) {
             transition.setOnFinished(event -> {
                 int i = index;
@@ -206,8 +231,35 @@ public class RacingSimulator extends Application {
                 simulator(car, i);
             });
         }
+        else  if (index == car.getEndPosition() && winner != true){
+            winner = true;
+            transition.setOnFinished(event -> {
+                results [counter] = new Label("WINNER: " + car.toString());
+                results[counter].setWrapText(true);
+                results[counter].setFont(new Font("Arial",16));
+                results[counter].setTextFill(Color.web("#ffcc00"));
+                rightSide.setPadding(new Insets(25));
+                rightSide.getChildren().add(results[counter]);
+                counter ++;
+            });
+        }
+        else if (index == car.getEndPosition()){
+            transition.setOnFinished(event -> {
+            results [counter] = new Label(car.toString());
+            results[counter].setWrapText(true);
+            results[counter].setFont(new Font("Arial",12));
+            results[counter].setTextFill(Color.web("#ffffff"));
+            rightSide.setPadding(new Insets(25));
+            rightSide.getChildren().addAll(results[counter]);  
+            counter ++;
+            if (counter ==3){
+                reset.setVisible(true);
+            }
+            });
+        }
 
         transition.setNode(carImage);
         transition.play();
     }
+  
 }
