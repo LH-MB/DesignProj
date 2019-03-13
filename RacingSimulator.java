@@ -80,10 +80,10 @@ public class RacingSimulator extends Application {
         checkpoints[3] = checkpointD;
 
         //CARS 
-        blueCar = new RaceCar(0, 3, setUpCar(relativePath + "blue_car.png", checkpointA));
-        redCar = new RaceCar(1, 0, setUpCar(relativePath + "red_car.png", checkpointB));
-        whiteCar = new RaceCar(2, 1, setUpCar(relativePath + "white_car.png", checkpointC));
-        purpleCar = new RaceCar(3, 2, setUpCar(relativePath + "purple_car.png", checkpointD));
+        blueCar = new RaceCar("Blue",0, 3, setUpCar(relativePath + "blue_car.png", checkpointA));
+        redCar = new RaceCar("Red",1, 0, setUpCar(relativePath + "red_car.png", checkpointB));
+        whiteCar = new RaceCar("White",2, 1, setUpCar(relativePath + "white_car.png", checkpointC));
+        purpleCar = new RaceCar("Purple",3, 2, setUpCar(relativePath + "purple_car.png", checkpointD));
 
         //RACETRACK
         Image raceTrackImg = new Image(relativePath + "raceTrack.png");
@@ -239,16 +239,16 @@ public class RacingSimulator extends Application {
         }
         else if (index == car.getEndPosition()){
             transition.setOnFinished(event -> {
-            results [counter] = new Label(car.toString());
-            results[counter].setWrapText(true);
-            results[counter].setFont(new Font("Arial",12));
-            results[counter].setTextFill(Color.web("#ffffff"));
-            rightSide.setPadding(new Insets(25));
-            rightSide.getChildren().addAll(results[counter]);  
-            counter ++;
-            if (counter == 4){
-                reset.setVisible(true);
-            }
+                results [counter] = new Label(car.toString());
+                results[counter].setWrapText(true);
+                results[counter].setFont(new Font("Arial",12));
+                results[counter].setTextFill(Color.web("#ffffff"));
+                rightSide.setPadding(new Insets(25));
+                rightSide.getChildren().addAll(results[counter]);  
+                counter ++;
+                if (counter == 4){
+                    reset.setVisible(true);
+                }
             });
         }
 

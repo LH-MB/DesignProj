@@ -10,7 +10,8 @@ import javafx.scene.image.ImageView;
 @SuppressWarnings("Duplicates")
 
 public class RaceCar{
-
+    
+    private String colorCar;
     private double engine;
     private double tires;
     private double nitrous;
@@ -21,6 +22,7 @@ public class RaceCar{
 
     //Default constructor
     public RaceCar(){
+        colorCar = "Not Set";
         engine = 0.0;
         tires = 0.0;
         nitrous = 0.0;
@@ -30,7 +32,7 @@ public class RaceCar{
         image = null;
     }
 
-    public RaceCar(int startPosition, int endPosition, ImageView image) {
+    public RaceCar(String colorCar,int startPosition, int endPosition, ImageView image) {
         engine = (Math.random() * 3) + 2;
         tires = (Math.random() * 3) + 2;
         if ((int)(Math.random() * 3 + 1) == 1) {
@@ -38,6 +40,7 @@ public class RaceCar{
         } else {
             nitrous = 0;
         }
+        this.colorCar = colorCar;
         this.calculatedSpeed = engine + tires + nitrous;
         this.startPosition = startPosition;
         this.endPosition = endPosition;
@@ -114,7 +117,7 @@ public class RaceCar{
     }
     
     public String toString(){
-        return "Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + startPosition
+        return colorCar + " Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + startPosition
                 + "End Position " + endPosition;
 
     }
