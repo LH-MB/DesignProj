@@ -6,12 +6,12 @@ import javafx.scene.image.ImageView;
 /**
  * Louis Hwang, Svet Draganitchki, Nathan Moore
  * CS 225 - Project 3
+ *
  * Louis created engine, tires, nitrous, startPosition, endPosition, toString, and equals attributes/methods
  * Nathan changed data types of some attributes. Created colorCar, calculatedSpeed, ImageView attributes/methods
- * //RaceCar class represents a RaceCar. Attributes are engine, tires, nitrous, calculated speed, start position, end position, and image;
+ *
+ * RaceCar class represents a RaceCar. Attributes are engine, tires, nitrous, calculated speed, start position, end position, and image;
  */
-
-@SuppressWarnings("Duplicates")
 
 public class RaceCar{
     
@@ -24,7 +24,7 @@ public class RaceCar{
     private int endPosition;
     private ImageView image;
 
-    //Default constructor
+    //CONSTRUCTOR
     public RaceCar(){
         colorCar = "Not Set";
         engine = 0.0;
@@ -51,7 +51,7 @@ public class RaceCar{
         this.image = image;
     }
 
-    //Getters
+    //GETTERS
     public String getColor(){
         return colorCar;
     }
@@ -84,7 +84,7 @@ public class RaceCar{
         return image;
     }
 
-    //Setters
+    //SETTERS
     public void setColor(String a){
         colorCar = a;
     }

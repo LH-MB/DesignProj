@@ -3,8 +3,10 @@ package RacingSimulator;
 /**
  * Louis Hwang, Nathan Moore
  * CS 225 - Project 3
+ *
  * Louis created xPos, yPos, toString, and equals attributes/methods
  * Nathan created angle attributes/methods
+ *
  * Checkpoint class represents a checkpoint. Attributes are the X-coordinate, Y-coordinate, and angle (in degrees)
  */
 

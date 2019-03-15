@@ -14,10 +14,10 @@
 }
 
 .buttons {
-    -fx-background-color: GREY;
+    -fx-background-color: RED;
     -fx-font-family: "Franklin Gothic Medium";
     -fx-font-size: 25px;
-    -fx-text-fill: WHITE;
+    -fx-text-fill: BLACK;
 }
 
 .resultsTitle {

@@ -1,9 +1,8 @@
 package RacingSimulator;
 
-/**
- * Louis Hwang, Nathan Moore, and Svet Draganitchki
- * CS 225 - Project 3
- * Louis worked on parts of the simulator method to stop the car and make it turn towards the en route checkpoint. Also attempted to make cars have individual paths
+/*
+  Louis Hwang, Nathan Moore, and Svet Draganitchki
+  CS 225 - Project 3
  */
 
 import javafx.animation.TranslateTransition;
@@ -23,8 +22,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.text.DecimalFormat;
-
-@SuppressWarnings("Duplicates")
 
 public class RacingSimulator extends Application {
 
@@ -54,8 +51,13 @@ public class RacingSimulator extends Application {
         df = new DecimalFormat("#.##");
         
         //TITLE
-        Text title = new Text("Racing Simulator");
-        title.getStyleClass().add("title");
+//        Text title = new Text("Racing Simulator");
+//        title.getStyleClass().add("title");
+        Image title = new Image(relativePath + "racing_sim_logo.png");
+        ImageView titleView = new ImageView();
+        titleView.setImage(title);
+        titleView.setFitWidth(600);
+        titleView.setPreserveRatio(true);
 
         //CHECKPOINTS
         checkpoints = new Checkpoint[4];
@@ -133,7 +135,7 @@ public class RacingSimulator extends Application {
         resultsTitle.getStyleClass().add("resultsTitle");
         VBox resultsPanel = new VBox();
         resultsPanel.setMinHeight(250);
-        resultsPanel.setPadding(new Insets(0, 10, 0, 10));
+        resultsPanel.setPadding(new Insets(0, 20, 0, 25));
         results = new Label[4];
         Label resultsHeading = new Label("\tCar\t\tTime");
         resultsHeading.getStyleClass().add("results");
@@ -147,7 +149,7 @@ public class RacingSimulator extends Application {
         
         //LEFT SIDE
         VBox leftSide = new VBox();
-        leftSide.getChildren().addAll(title, trackPanel);
+        leftSide.getChildren().addAll(titleView, trackPanel);
         leftSide.setAlignment(Pos.CENTER);
         leftSide.setMinWidth(500);
         leftSide.setSpacing(20);
@@ -161,14 +163,20 @@ public class RacingSimulator extends Application {
         rightSide.setMaxHeight(300);
         rightSide.setSpacing(20);
         
+        //SIDES LAYOUT
+        HBox sides = new HBox();
+        sides.setAlignment(Pos.CENTER);
+        sides.getChildren().addAll(leftSide, rightSide);
+        sides.setSpacing(50);
+
         //MAIN LAYOUT
-        HBox mainLayout = new HBox();
-        mainLayout.setAlignment(Pos.CENTER);
-        mainLayout.getChildren().addAll(leftSide, rightSide);
-        mainLayout.setSpacing(50);
+        VBox main = new VBox();
+        main.setAlignment(Pos.CENTER);
+        main.getChildren().addAll(titleView, sides);
+        main.setSpacing(30);
 
         //SCENE AND STAGE
-        Scene scene = new Scene(mainLayout);
+        Scene scene = new Scene(main);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(1000);
