@@ -28,30 +28,18 @@ import java.text.DecimalFormat;
 public class RacingSimulator extends Application {
 
     private Checkpoint[] checkpoints;
-    private Label[] results;
     private int counter;
-    
-    private ImageView carView;
     private boolean winner;
-    
     private RaceCar blueCar;
     private RaceCar redCar;
     private RaceCar whiteCar;
     private RaceCar purpleCar;
-    
     private Pane trackPanel;
-    
     private String relativePath = "/RacingSimulator/images/";
-    
     private Button start;
     private Button reset;
-
-    private HBox buttons;
-    private VBox resultsPanel;
-    private VBox leftSide;
-    private VBox rightSide;
-
-    DecimalFormat df;
+    private Label[] results;
+    private DecimalFormat df;
 
     public static void main(String[] args) {
         launch(args);
@@ -135,14 +123,14 @@ public class RacingSimulator extends Application {
             reset.setDisable(true);
         });
 
-        buttons = new HBox();
+        HBox buttons = new HBox();
         buttons.getChildren().addAll(start, reset);
         buttons.setAlignment(Pos.CENTER);
 
         //RESULTS
         Label resultsTitle = new Label("Results");
         resultsTitle.getStyleClass().add("resultsTitle");
-        resultsPanel = new VBox();
+        VBox resultsPanel = new VBox();
         resultsPanel.setMinHeight(250);
         resultsPanel.setPadding(new Insets(0, 10, 0, 10));
         results = new Label[4];
@@ -157,14 +145,14 @@ public class RacingSimulator extends Application {
         }
         
         //LEFT SIDE
-        leftSide = new VBox();
+        VBox leftSide = new VBox();
         leftSide.getChildren().addAll(title, trackPanel);
         leftSide.setAlignment(Pos.CENTER);
         leftSide.setMinWidth(500);
         leftSide.setSpacing(20);
 
         //RIGHT SIDE
-        rightSide = new VBox();
+        VBox rightSide = new VBox();
         rightSide.getStyleClass().add("right_side");
         rightSide.getChildren().addAll(buttons, resultsTitle, resultsPanel);
         rightSide.setAlignment(Pos.CENTER);
@@ -175,7 +163,7 @@ public class RacingSimulator extends Application {
         //MAIN LAYOUT
         HBox mainLayout = new HBox();
         mainLayout.setAlignment(Pos.CENTER);
-        mainLayout.getChildren().addAll(leftSide,rightSide);
+        mainLayout.getChildren().addAll(leftSide, rightSide);
         mainLayout.setSpacing(50);
 
         //SCENE AND STAGE
@@ -190,7 +178,7 @@ public class RacingSimulator extends Application {
 
     private ImageView setUpCar(String carFilePath, Checkpoint checkpoint) {
         Image carImg = new Image(carFilePath);
-        carView = new ImageView();
+        ImageView carView = new ImageView();
         carView.setImage(carImg);
         carView.setFitWidth(100);
         carView.setPreserveRatio(true);
@@ -201,7 +189,6 @@ public class RacingSimulator extends Application {
     }
 
     private void simulator(RaceCar car, int index) {
-
         TranslateTransition transition = new TranslateTransition();
         transition.setToX(checkpoints[index].getXPos());
         transition.setToY(checkpoints[index].getYPos());
