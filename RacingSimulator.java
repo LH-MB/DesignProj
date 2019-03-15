@@ -3,6 +3,7 @@ package RacingSimulator;
 /**
  * Louis Hwang, Nathan Moore, and Svet Draganitchki
  * CS 225 - Project 3
+ * Louis worked on parts of the simulator method to stop the car and make it turn towards the en route checkpoint. Also attempted to make cars have individual paths
  */
 
 import javafx.animation.TranslateTransition;
