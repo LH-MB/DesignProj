@@ -1,8 +1,17 @@
 package RacingSimulator;
 
-/*
-  Louis Hwang, Nathan Moore, and Svet Draganitchki
-  CS 225 - Project 3
+/**
+ * Louis Hwang, Nathan Moore, and Svet Draganitchki
+ * CS 225 - Project 3
+ *
+ * Louis:   Worked on parts of the simulator method to stop the car and make it turn towards the en route checkpoint.
+ *          Also attempted to make cars have individual paths.
+ * Svet:    Made the functionality for checking to see who finished, when, and if the race had finished, made the original
+ *          results panel which updates as each car finishes.
+ * Nathan:  Made the original racetrack and car GUI, made car animation to go around track, formatted teammates GUI to
+ *          match the overall look of the game.
+ *
+ * This is the main class which holds all of the GUI and simulator functionality.
  */
 
 import javafx.animation.TranslateTransition;
@@ -17,7 +26,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -51,8 +59,6 @@ public class RacingSimulator extends Application {
         df = new DecimalFormat("#.##");
         
         //TITLE
-//        Text title = new Text("Racing Simulator");
-//        title.getStyleClass().add("title");
         Image title = new Image(relativePath + "racing_sim_logo.png");
         ImageView titleView = new ImageView();
         titleView.setImage(title);

@@ -7,8 +7,8 @@ import javafx.scene.image.ImageView;
  * Louis Hwang, Svet Draganitchki, Nathan Moore
  * CS 225 - Project 3
  *
- * Louis created engine, tires, nitrous, startPosition, endPosition, toString, and equals attributes/methods
- * Nathan changed data types of some attributes. Created colorCar, calculatedSpeed, ImageView attributes/methods
+ * Louis:   Created engine, tires, nitrous, startPosition, endPosition, toString, and equals attributes/methods
+ * Nathan:  Changed data types of some attributes. Created colorCar, calculatedSpeed, ImageView attributes/methods
  *
  * RaceCar class represents a RaceCar. Attributes are engine, tires, nitrous, calculated speed, start position, end position, and image;
  */
