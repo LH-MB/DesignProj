@@ -7,3 +7,25 @@
     -fx-font-family: "Franklin Gothic Medium";
     -fx-font-size: 50px;
 }
+
+.right_side {
+    -fx-background-color: WHITE;
+    -fx-background-radius: 15px;
+}
+
+.buttons {
+    -fx-background-color: GREY;
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-font-size: 25px;
+    -fx-text-fill: WHITE;
+}
+
+.resultsTitle {
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-font-size: 40px;
+}
+
+.results {
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-font-size: 25px;
+}

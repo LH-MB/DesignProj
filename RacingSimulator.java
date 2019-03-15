@@ -7,8 +7,6 @@ package RacingSimulator;
 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,8 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -64,6 +60,7 @@ public class RacingSimulator extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+        //MISCELLANEOUS
         counter = 0;
         df = new DecimalFormat("#.##");
         
@@ -84,8 +81,8 @@ public class RacingSimulator extends Application {
         checkpoints[3] = checkpointD;
 
         //CARS 
-        blueCar = new RaceCar("Blue",0, 3, setUpCar(relativePath + "blue_car.png", checkpointA));
-        redCar = new RaceCar("Red",1, 0, setUpCar(relativePath + "red_car.png", checkpointB));
+        blueCar = new RaceCar("Blue ",0, 3, setUpCar(relativePath + "blue_car.png", checkpointA));
+        redCar = new RaceCar("Red  ",1, 0, setUpCar(relativePath + "red_car.png", checkpointB));
         whiteCar = new RaceCar("White",2, 1, setUpCar(relativePath + "white_car.png", checkpointC));
         purpleCar = new RaceCar("Purple",3, 2, setUpCar(relativePath + "purple_car.png", checkpointD));
 
@@ -97,81 +94,83 @@ public class RacingSimulator extends Application {
         trackPanel = new Pane();
         trackPanel.getChildren().addAll(raceTrackView, blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
 
-        //START
+        //START AND RESET BUTTONS
         start = new Button("Start");
+        start.getStyleClass().add("buttons");
+        start.setStyle("-fx-background-radius: 15 0 0 0");
+        start.setPrefWidth(150);
         start.setMinSize(100,50);
-        start.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {   
-                simulator(blueCar, 1);
-                simulator(redCar, 2);
-                simulator(whiteCar, 3);
-                simulator(purpleCar, 0);
-                start.setDisable(true);
-            }
-        
-    });
-        
-        //RESET
+        start.setOnAction(event -> {
+            simulator(blueCar, 1);
+            simulator(redCar, 2);
+            simulator(whiteCar, 3);
+            simulator(purpleCar, 0);
+            start.setDisable(true);
+        });
+
         reset = new Button("Restart");
+        reset.getStyleClass().add("buttons");
+        reset.setStyle("-fx-background-radius: 0 15 0 0");
+        reset.setPrefWidth(150);
         reset.setMinSize(100,50);
         reset.setDisable(true);
-        
-        reset.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            
-            public void handle(ActionEvent event) {
-                trackPanel.getChildren().removeAll(blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
-                blueCar.setImage(setUpCar(relativePath + "blue_car.png",checkpointA));
-                blueCar.randomizeValues();
-                redCar.setImage(setUpCar(relativePath + "red_car.png", checkpointB));
-                redCar.randomizeValues();
-                whiteCar.setImage(setUpCar(relativePath + "white_car.png", checkpointC));
-                whiteCar.randomizeValues();
-                purpleCar.setImage(setUpCar(relativePath + "purple_car.png", checkpointD));
-                purpleCar.randomizeValues();
-                trackPanel.getChildren().addAll(blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
-                for (Label result: results) {
-                    result.setText("");
-                }
-
-
-                counter = 0;
-                winner = false;
-                start.setDisable(false);
-                reset.setDisable(true);
+        reset.setOnAction(event -> {
+            trackPanel.getChildren().removeAll(blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
+            blueCar.setImage(setUpCar(relativePath + "blue_car.png",checkpointA));
+            blueCar.randomizeValues();
+            redCar.setImage(setUpCar(relativePath + "red_car.png", checkpointB));
+            redCar.randomizeValues();
+            whiteCar.setImage(setUpCar(relativePath + "white_car.png", checkpointC));
+            whiteCar.randomizeValues();
+            purpleCar.setImage(setUpCar(relativePath + "purple_car.png", checkpointD));
+            purpleCar.randomizeValues();
+            trackPanel.getChildren().addAll(blueCar.getImage(), redCar.getImage(), whiteCar.getImage(), purpleCar.getImage());
+            for (Label result: results) {
+                result.setText("");
             }
-                
-        
-    });
+
+            counter = 0;
+            winner = false;
+            start.setDisable(false);
+            reset.setDisable(true);
+        });
 
         buttons = new HBox();
         buttons.getChildren().addAll(start, reset);
         buttons.setAlignment(Pos.CENTER);
-        buttons.setSpacing(50);
+
+        //RESULTS
+        Label resultsTitle = new Label("Results");
+        resultsTitle.getStyleClass().add("resultsTitle");
+        resultsPanel = new VBox();
+        resultsPanel.setMinHeight(250);
+        resultsPanel.setPadding(new Insets(0, 10, 0, 10));
+        results = new Label[4];
+        Label resultsHeading = new Label("\tCar\t\tTime");
+        resultsHeading.getStyleClass().add("results");
+        resultsPanel.getChildren().add(resultsHeading);
+        for (int i=0; i<4; i++) {
+            results[i] = new Label();
+            results[i].getStyleClass().add("results");
+            results[i].setMinHeight(35);
+            resultsPanel.getChildren().add(results[i]);
+        }
         
         //LEFT SIDE
         leftSide = new VBox();
         leftSide.getChildren().addAll(title, trackPanel);
         leftSide.setAlignment(Pos.CENTER);
         leftSide.setMinWidth(500);
-
-
-        resultsPanel = new VBox();
-        resultsPanel.setAlignment(Pos.CENTER);
-        resultsPanel.setMinHeight(300);
-
-        results = new Label[4];
-        for (int i=0; i<4; i++) {
-            results[i] = new Label();
-            resultsPanel.getChildren().add(results[i]);
-        }
+        leftSide.setSpacing(20);
 
         //RIGHT SIDE
         rightSide = new VBox();
-        rightSide.getChildren().addAll(buttons, resultsPanel);
+        rightSide.getStyleClass().add("right_side");
+        rightSide.getChildren().addAll(buttons, resultsTitle, resultsPanel);
         rightSide.setAlignment(Pos.CENTER);
-        rightSide.setMinWidth(300);
+        rightSide.setPrefWidth(300);
+        rightSide.setMaxHeight(300);
+        rightSide.setSpacing(20);
         
         //MAIN LAYOUT
         HBox mainLayout = new HBox();
@@ -227,21 +226,15 @@ public class RacingSimulator extends Application {
             winner = true;
             transition.setOnFinished(event -> {
                 double time = (car.getCalculatedSpeed()/2.5) * 4;
-                results[counter].setText(counter + 1 + ": " + car.getColor() + " (time: " + df.format(time) + "s)");
-                results[counter].setMaxWidth(400);
+                results[counter].setText(counter + 1 + "\t" + car.getColor() + "\t" + df.format(time) + "s");
                 results[counter].setWrapText(true);
-                results[counter].setFont(new Font("Arial",24));
-                results[counter].setTextFill(Color.web("#000000"));
                 counter++;
             });
         } else if (index == car.getEndPosition()){
             transition.setOnFinished(event -> {
                 double time = (car.getCalculatedSpeed()/2.5) * 4;
-                results[counter].setText(counter + 1 + ": " + car.getColor() + " (time: " + df.format(time) + "s)");
-                results[counter].setMaxWidth(400);
+                results[counter].setText(counter + 1 + "\t" + car.getColor() + "\t" + df.format(time) + "s");
                 results[counter].setWrapText(true);
-                results[counter].setFont(new Font("Arial",24));
-                results[counter].setTextFill(Color.web("#000000"));
                 counter++;
                 if (counter == 4){
                     reset.setDisable(false);
