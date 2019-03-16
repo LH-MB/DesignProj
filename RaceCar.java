@@ -116,7 +116,8 @@ public class RaceCar{
     public void setImage(ImageView image) {
         this.image = image;
     }
-
+    
+    //Randomzie engine, tires, and nitrous for calculatedSpeed
     public void randomizeValues(){
         engine = (Math.random() * 3) + 2;
         tires = (Math.random() * 3) + 2;
