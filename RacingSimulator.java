@@ -105,6 +105,7 @@ public class RacingSimulator extends Application {
             start.setDisable(true);
         });
 
+        //Reset cars to starting positions and calculate new speeds
         reset = new Button("Restart");
         reset.getStyleClass().add("buttons");
         reset.setStyle("-fx-background-radius: 0 15 0 0");
@@ -136,7 +137,7 @@ public class RacingSimulator extends Application {
         buttons.getChildren().addAll(start, reset);
         buttons.setAlignment(Pos.CENTER);
 
-        //RESULTS
+        //RESULT LAYOUT
         Label resultsTitle = new Label("Results");
         resultsTitle.getStyleClass().add("resultsTitle");
         VBox resultsPanel = new VBox();
@@ -191,6 +192,7 @@ public class RacingSimulator extends Application {
         primaryStage.show();
     }
 
+    //setUpCar paints car image on GUI and enables adjustments to move and rotate car image according to checkpoints
     private ImageView setUpCar(String carFilePath, Checkpoint checkpoint) {
         Image carImg = new Image(carFilePath);
         ImageView carView = new ImageView();
@@ -203,7 +205,10 @@ public class RacingSimulator extends Application {
         return carView;
     }
 
+    /*simulator carries out the functions of the race to start and stop the movement of cars according to their respective paths and 
+    display the winner and data of the cars once finished*/
     private void simulator(RaceCar car, int index) {
+        //Move car to checkpoint position at a time dependent on car's speed
         TranslateTransition transition = new TranslateTransition();
         transition.setToX(checkpoints[index].getXPos());
         transition.setToY(checkpoints[index].getYPos());
@@ -213,6 +218,7 @@ public class RacingSimulator extends Application {
         transition.setNode(carImage);
         double angle = checkpoints[index].getAngle();
        
+        //If car isn't at end position then increment position of car
         if (index != car.getEndPosition()) {
             transition.setOnFinished(event -> {
                 int i = index;
@@ -224,6 +230,7 @@ public class RacingSimulator extends Application {
                 }
                 simulator(car, i);
             });
+            //Display color, place, and time of winning car
         } else  if (index == car.getEndPosition() && !winner){
             winner = true;
             transition.setOnFinished(event -> {
@@ -232,6 +239,7 @@ public class RacingSimulator extends Application {
                 results[counter].setWrapText(true);
                 counter++;
             });
+            //Display color, place, and time of non-winning car
         } else if (index == car.getEndPosition()){
             transition.setOnFinished(event -> {
                 double time = (car.getCalculatedSpeed()/2.5) * 4;
