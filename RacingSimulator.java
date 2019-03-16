@@ -32,7 +32,8 @@ import javafx.util.Duration;
 import java.text.DecimalFormat;
 
 public class RacingSimulator extends Application {
-
+	
+	//private variables used throughout the code 
     private Checkpoint[] checkpoints;
     private int counter;
     private boolean winner;
@@ -132,7 +133,8 @@ public class RacingSimulator extends Application {
             start.setDisable(false);
             reset.setDisable(true);
         });
-
+	
+		//HBox that stores two buttons 
         HBox buttons = new HBox();
         buttons.getChildren().addAll(start, reset);
         buttons.setAlignment(Pos.CENTER);

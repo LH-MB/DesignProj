@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
  *
  * Louis:   Created engine, tires, nitrous, startPosition, endPosition, toString, and equals attributes/methods
  * Nathan:  Changed data types of some attributes. Created colorCar, calculatedSpeed, ImageView attributes/methods
- *
+ * Svet: added String variable to RaceCar. 
  * RaceCar class represents a RaceCar. Attributes are engine, tires, nitrous, calculated speed, start position, end position, and image;
  */
 
@@ -129,18 +129,14 @@ public class RaceCar{
         calculatedSpeed = engine + tires + nitrous;
     }
     
-    public String resultsToString(){
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        return colorCar + " This car had Engine:"+df.format(engine)+" Type of Tires:"+df.format(tires)+" Nitrous:"+df.format(nitrous)+" Speed:"+ df.format(calculatedSpeed) +"MPH";
-    }
-    
+	@Override
     public String toString(){
         return colorCar + " Engine: " + engine + " Tires: " + tires + " Nitrous: " + nitrous + " Current Position: " + startPosition
                 + "End Position " + endPosition + " Image: " + image;
 
     }
-
+	
+	@Override
     public boolean equals(Object obj){
         if (obj == this) return true;
 
